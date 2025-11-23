@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import carrinhoReducer from './reducers/carrinho'
+import carrinhoReducer from '../features/carrinho/carrinhoSlice'
 
-import api from '../services/api'
+import api from '../services/request/requestSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,4 +13,5 @@ export const store = configureStore({
     getDefaultMiddleware().concat(api.middleware)
 })
 
-export type RootReducer = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
