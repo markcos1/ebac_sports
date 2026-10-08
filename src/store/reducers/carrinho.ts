@@ -3,10 +3,12 @@ import { Produto } from '../../App'
 
 type CarrinhoState = {
   itens: Produto[]
+  favoritos: Produto[]
 }
 
 const initialState: CarrinhoState = {
-  itens: []
+  itens: [],
+  favoritos: []
 }
 
 const carrinhoSlice = createSlice({
@@ -15,7 +17,9 @@ const carrinhoSlice = createSlice({
   reducers: {
     adicionar: (state, action: PayloadAction<Produto>) => {
       const produto = action.payload
-      if (state.itens.find((p) => p.id === produto.id)) {
+      const produtoExiste = state.itens.some((item) => item.id === produto.id)
+
+      if (produtoExiste) {
         alert('Item já adicionado')
       } else {
         state.itens.push(produto)
@@ -23,11 +27,15 @@ const carrinhoSlice = createSlice({
     },
     favoritar: (state, action: PayloadAction<Produto>) => {
       const produto = action.payload
-      if (state.itens.find((p) => p.id === produto.id)) {
-        const itensSemProduto = state.itens.filter((p) => p.id !== produto.id)
-        state.itens = itensSemProduto
+      const produtoExiste = state.favoritos.some(
+        (item) => item.id === produto.id
+      )
+      if (produtoExiste) {
+        state.favoritos = state.favoritos.filter(
+          (item) => item.id !== produto.id
+        )
       } else {
-        state.itens.push(produto)
+        state.favoritos.push(produto)
       }
     }
   }
